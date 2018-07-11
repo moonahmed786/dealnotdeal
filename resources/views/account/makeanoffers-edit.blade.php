@@ -73,7 +73,7 @@ else
 												?></h1>
 											</div>
 											<div class="table-responsive" style="margin-top: -20px;background-color: #fff; margin-right: -15px; margin-left: -12px;">
-												<table class="table table-bordered">
+												<table class="table table-bordered" style="margin-bottom: 0px;">
 													<thead>
 														<tr>
 															<th>{{ t('Date') }}</th>
@@ -153,7 +153,7 @@ else
 												?></h1>
 											</div>
 											<div class="table-responsive" style="margin-top: -20px;background-color: #fff; margin-left: -15px; margin-right: -12px;">
-												<table class="table table-bordered">
+												<table class="table table-bordered" style="margin-bottom: 0px;">
 													<thead>
 														<tr>
 															<th>{{ t('Offer') }}</th>

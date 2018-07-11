@@ -448,12 +448,18 @@ else
 												</a>
 											@endif
 										@endif
-										@if ($post->phone_hidden != 1 and !empty($post->phone))
-											<a href="{{ $phoneLink }}" {!! $phoneLinkAttr !!} class="btn btn-primary btn-block showphone">
-                                                <i class="icon-heart"></i>
-                                                {!! $addToFavrites !!}{{-- t('View phone') --}}
-                                            </a>
-										@endif
+										<a class="make-favorite btn btn-primary btn-block showphone" id="{{ $post->id }}">
+											@if (auth()->check())
+												@if (\App\Models\SavedPost::where('user_id', auth()->user()->id)->where('post_id', $post->id)->count() > 0)
+													<i class="fa fa-heart tooltipHere" data-toggle="tooltip" data-original-title="{{ t('Remove favorite') }}"></i>
+												@else
+													<i class="fa fa-heart-o" class="tooltipHere" data-toggle="tooltip" data-original-title="{{ t('Save ad') }}"></i>
+												@endif
+											@else
+												<i class="fa fa-heart-o" class="tooltipHere" data-toggle="tooltip" data-original-title="{{ t('Save ad') }}"></i>
+											@endif
+											{!! $addToFavrites !!}
+										</a>
 									</div>
 								</div>
 							</div>
