@@ -22,3 +22,36 @@
     text-align:center;
 }
 
+.offer-display 
+{
+	margin-bottom: 20px;
+    height: 200px;
+    background-color: #ccc;
+    width: 450px;
+    border-radius: 30px;
+    padding: 15px;
+}
+
+.add-items 
+{
+	margin-bottom: 20px;
+    height: 50px;
+    background-color: #ccc;
+    width: 450px;
+    border-radius: 10px;
+    padding: 6px;
+}
+
+.add-items p
+{
+	padding: 10px;
+}
+.offer-display p 
+{
+	text-align: center;
+}
+.offer-display a 
+{
+	text-align: center;
+}
+
