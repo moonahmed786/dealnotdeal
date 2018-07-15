@@ -35,7 +35,7 @@
     background : url(../images/makeoffer02.svg);
 }
 
-.offer-display h2
+.offer-display h2,h1
 {
 	padding-top: 50px;
 }
@@ -66,4 +66,8 @@
 {
 	text-align: center;
 }
-
+.offer-decision a
+{
+    text-align: center;
+    padding-left: 150px;
+}

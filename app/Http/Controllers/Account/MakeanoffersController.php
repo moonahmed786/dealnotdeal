@@ -43,8 +43,6 @@ class MakeanoffersController extends AccountBaseController
 	 */
 	public function index()
 	{
-		// echo "string";
-		// exit;
 		$data = [];
 		$data['makeanoffers'] = $this->makeanoffers->paginate($this->perPage);
 		
@@ -53,9 +51,6 @@ class MakeanoffersController extends AccountBaseController
 		// Meta Tags
 		MetaTag::set('title', t('My Offer Maker'));
 		MetaTag::set('description', t('My Offers Maker on :app_name', ['app_name' => config('settings.app.name')]));
-		// echo "<pre>";
-		// print_r($data);
-		// exit;
 		return view('account.makeanoffers', $data);
 	}
 
@@ -65,6 +60,24 @@ class MakeanoffersController extends AccountBaseController
 		$data = [];
 		$data['makeanoffers'] = Makeanoffer::findOrFail($id);
 		$data['post'] = Post::findOrFail($data['makeanoffers']['post_id']);
+		$seller_id = $data['makeanoffers']['seller_id'];
+        $buyer_id = $data['makeanoffers']['buyer_id'];
+		
+		$data['sellerPosts'] = DB::table('posts')->where(function ($query) use ($seller_id)
+        {
+            $query->where('posts.user_id', '=', $seller_id);
+
+        })
+		->join('pictures', 'posts.id', '=', 'pictures.post_id')
+        ->select('pictures.filename','pictures.position','pictures.active')->get();
+		$data['buyerPosts'] = DB::table('posts')->where(function ($query) use ($buyer_id)
+        {
+            $query->where('posts.user_id', '=', $buyer_id);
+
+        })
+		->join('pictures', 'posts.id', '=', 'pictures.post_id')
+        ->select('pictures.filename','pictures.position','pictures.active')->get();
+		
 		$data['pictures'] = DB::table('pictures')->select('pictures.filename','pictures.position','pictures.active')->where(['post_id' => $data['makeanoffers']['post_id'] , 'position' => 0])->first();
 		$all_post = DB::table('posts')->where('posts.user_id', $data['makeanoffers']['seller_id'])
                         // ->join('pictures', 'posts.id', '=', 'pictures.post_id')
@@ -101,7 +114,7 @@ class MakeanoffersController extends AccountBaseController
 	public function notdealseller($id)
 	{
 		$makeanoffer = Makeanoffer::find($id);
-		$makeanoffer->approve_seller = 0;
+		$makeanoffer->approve_seller = 2;
 		$makeanoffer->update();
 		return redirect('account/makeanoffers/'.$id.'/edit');
 	}

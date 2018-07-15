@@ -63,6 +63,8 @@ else
 										<div class="col-md-3 pull-left">
 											<h2>Seller Products</h2> 
 									        <div id="myCarousel" class="vertical-slider carousel vertical slide col-md-12" data-ride="carousel">
+									        	
+									        	@if($sellerPosts->count() > 4)
 									            <div class="row">
 									                <div class="col-md-4">
 									                    <span data-slide="next" class="btn-vertical-slider glyphicon glyphicon-circle-arrow-up "
@@ -71,11 +73,31 @@ else
 									                <div class="col-md-8"> 
 									                </div>
 									            </div>
+									            @endif
 									            <br />
 									            <!-- Carousel items -->
 									            <div class="carousel-inner">
 									                <div class="item active">
-									                    <div class="row">
+									                	@if($sellerPosts->count() > 0)
+									                	@foreach($sellerPosts as $sellerPost)
+									                	<?php 
+									                	if (!empty($sellerPost->filename)) {
+						                                        $postImgseller = resize($sellerPost->filename, 'medium');
+						                                    } else {
+						                                        $postImgseller = resize(config('larapen.core.picture.default'));
+						                                    }
+
+						                                    $countryFlagPath = 'images/flags/16/' . strtolower($post->country_code) . '.png';
+									                	?>
+									                	<div class="row">
+									                        <div class="col-xs-6 col-sm-5 col-md-5">
+									                            <a href="http://dotstrap.com/"> <img src="{{ $postImgseller }}" class="thumbnail"
+									                                alt="Image" /></a>
+									                        </div>
+									                    </div>
+									                    @endforeach
+									                    @else
+									                	<div class="row">
 									                        <div class="col-xs-6 col-sm-5 col-md-5">
 									                            <a href="http://dotstrap.com/"> <img src="http://placehold.it/100x100" class="thumbnail"
 									                                alt="Image" /></a>
@@ -99,8 +121,16 @@ else
 									                                alt="Image" /></a>
 									                        </div>
 									                    </div>
+									                    <div class="row">
+									                        <div class="col-xs-6 col-sm-5 col-md-5">
+									                            <a href="http://dotstrap.com/"> <img src="http://placehold.it/100x100" class="thumbnail"
+									                                alt="Image" /></a>
+									                        </div>
+									                    </div>
+									                    @endif
 									                </div>
 									            	</div>
+									            	@if($sellerPosts->count() > 4)
 										            <div class="row">
 										                <div class="col-md-4">
 										                    <span data-slide="prev" class="btn-vertical-slider glyphicon glyphicon-circle-arrow-down"
@@ -109,17 +139,30 @@ else
 										                <div class="col-md-8">
 										                </div>
 										            </div>
+										            @endif
 									        	</div>
 										</div>
 										<div class="col-md-6">
-											<h2 style="text-align: center;">Offer</h2>
+											<h2 class = "tabs-center" style="padding-right: 100px;">Offer </h2>
 											<div class="row"> 
 												<div class="col-md-10 center offer-display">
 													<div class="col-md-4 offer-display-img">
 														<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
 													</div>
 													<div class="col-md-8">
-														<h2>Buyer’s Offer : {{ $makeanoffers->original_price }}</h2>
+														<h2 class="title-2 tabs-center">
+															<?php 
+																if($makeanoffers->seller_id == auth()->user()->id)
+																{
+																	echo auth()->user()->name;
+																}
+																else
+																{
+																	echo 'Seller';
+																}
+															?>
+															<br />
+														{{ $makeanoffers->original_price }} | {{ $makeanoffers->offer_price }}</h2>
 														<p>{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</p>
 
 															@if ($makeanoffers->status == 1)
@@ -152,7 +195,19 @@ else
 														<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
 													</div>
 													<div class="col-md-8">
-														<h2>Seller’s Offer : {{ $makeanoffers->original_price }}</h2>
+														<h2 class="title-2 tabs-center">
+															<?php 
+																if($makeanoffers->buyer_id == auth()->user()->id)
+																{
+																	echo auth()->user()->name;
+																}
+																else
+																{
+																	echo 'Buyer';
+																}
+															?>
+														<br />	
+														{{ $makeanoffers->original_price }} | {{ $makeanoffers->offer_price }}</h2>
 														<p>{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</p>
 
 															@if ($makeanoffers->status == 1)
@@ -167,10 +222,41 @@ else
 													</div>	
 												</div>
 											</div>
+											<div class="row offer-decision">
+												@if($makeanoffers->approve_seller == 0)
+												<a href="{{ lurl('/account/makeanoffers/'.$makeanoffers->id.'/dealseller') }}" class="visible-lg tabs-center">
+												<img src="{{ lurl('/') }}/images/logo-deal.png"
+												 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
+												 data-toggle="tooltip"
+												 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
+												</a>
+												<a href="{{ lurl('/account/makeanoffers/'.$makeanoffers->id.'/notdealseller') }}" class="visible-lg tabs-center">
+													<img src="{{ lurl('/') }}/images/logo-not-deal.png"
+													 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
+													 data-toggle="tooltip"
+													 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
+												</a>
+												@elseif($makeanoffers->approve_seller == 2)
+												<a href="#" class="visible-lg tabs-center">
+													<img src="{{ lurl('/') }}/images/logo-not-deal.png"
+													 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
+													 data-toggle="tooltip"
+													 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
+												</a>
+												@elseif($makeanoffers->approve_seller == 1)
+												<a href="#" class="visible-lg tabs-center">
+												<img src="{{ lurl('/') }}/images/logo-deal.png"
+												 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
+												 data-toggle="tooltip"
+												 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
+												</a>
+												@endif
+											</div>	
 										</div>	
 										<div class="col-md-3 pull-right">
 											<h2>Buyer Products</h2> 
 									        <div id="myCarousel" class="vertical-slider carousel vertical slide col-md-12" data-ride="carousel">
+									        	@if($buyerPosts->count() > 4)
 									            <div class="row">
 									                <div class="col-md-4">
 									                    <span data-slide="next" class="btn-vertical-slider glyphicon glyphicon-circle-arrow-up "
@@ -179,10 +265,30 @@ else
 									                <div class="col-md-8"> 
 									                </div>
 									            </div>
+									            @endif
 									            <br />
 									            <!-- Carousel items -->
 									            <div class="carousel-inner">
 									                <div class="item active">
+									                	@if($buyerPosts->count() > 0)
+									                	@foreach($buyerPosts as $buyerPost)
+									                	<?php 
+									                	if (!empty($buyerPost->filename)) {
+						                                        $postImgbuyer = resize($buyerPost->filename, 'medium');
+						                                    } else {
+						                                        $postImgbuyer = resize(config('larapen.core.picture.default'));
+						                                    }
+
+						                                    $countryFlagPath = 'images/flags/16/' . strtolower($post->country_code) . '.png';
+									                	?>
+									                	<div class="row">
+									                        <div class="col-xs-6 col-sm-5 col-md-5">
+									                            <a href="http://dotstrap.com/"> <img src="{{ $postImgbuyer }}" class="thumbnail"
+									                                alt="Image" /></a>
+									                        </div>
+									                    </div>
+									                    @endforeach
+									                    @else
 									                    <div class="row">
 									                        <div class="col-xs-6 col-sm-5 col-md-5">
 									                            <a href="http://dotstrap.com/"> <img src="http://placehold.it/100x100" class="thumbnail"
@@ -207,8 +313,10 @@ else
 									                                alt="Image" /></a>
 									                        </div>
 									                    </div>
+									                    @endif
 									                </div>
 									            	</div>
+									            	@if($buyerPosts->count() > 4)
 										            <div class="row">
 										                <div class="col-md-4">
 										                    <span data-slide="prev" class="btn-vertical-slider glyphicon glyphicon-circle-arrow-down"
@@ -217,6 +325,7 @@ else
 										                <div class="col-md-8">
 										                </div>
 										            </div>
+										            @endif
 									        	</div>
 										</div>
 									</div>	

@@ -126,19 +126,27 @@ abstract class AccountBaseController extends FrontController
 			->orderByDesc('id');
 		view()->share('countTransactions', $this->transactions->count());
 
-        // Offers
-        // $this->makeanoffers = Makeanoffer::where('approve_seller', 0)
-        //                     ->orderByDesc('id')->get();
-        // view()->share('countMakeanoffers', $this->makeanoffers->count());
-        $this->makeanoffers =  DB::table('makeanoffers')
-                            ->join('posts', 'makeanoffers.post_id', '=', 'posts.id')
-                            // ->join('pictures', 'makeanoffers.post_id', '=', 'pictures.post_id')
-                            ->select('makeanoffers.*', 'posts.country_code' , 'posts.user_id', 'posts.category_id', 'posts.post_type_id', 'posts.title', 'posts.description', 'posts.tags', 'posts.price', 'posts.negotiable', 'posts.contact_name', 'posts.email', 'posts.phone', 'posts.phone_hidden', 'posts.address', 'posts.city_id', 'posts.lon', 'posts.lat', 'posts.ip_addr', 'posts.visits', 'posts.email_token', 'posts.phone_token', 'posts.tmp_token', 'posts.verified_email', 'posts.verified_phone', 'posts.reviewed', 'posts.featured', 'posts.archived', 'posts.fb_profile', 'posts.partner')  
-                            ->where('makeanoffers.approve_seller', 0)
-                            ->orWhere('makeanoffers.buyer_id', auth()->user()->id)
-                            ->orWhere('makeanoffers.seller_id', auth()->user()->id)
-                            ->orderByDesc('makeanoffers.id');        
-        view()->share('countMakeanoffers', $this->makeanoffers->count());
+    
+        $seller_id = auth()->user()->id;
+        $buyer_id = auth()->user()->id;
+        $status = 1;
+        $this->makeanoffers =  DB::table('makeanoffers')->where(function ($query) use ($seller_id, $buyer_id, $status)
+        {
+            if(auth()->user()->user_type_id == 2)
+            {
+                $query->where('makeanoffers.seller_id', '=', $seller_id);
+            }
+            elseif(auth()->user()->user_type_id == 3)
+            {
+               $query->where('makeanoffers.buyer_id', '=', $buyer_id); 
+            }
+            
+            $query->where('makeanoffers.status', '=', $status);
+        })
+        ->join('posts', 'makeanoffers.post_id', '=', 'posts.id')
+        ->select('makeanoffers.*', 'posts.country_code' , 'posts.user_id', 'posts.category_id', 'posts.post_type_id', 'posts.title', 'posts.description', 'posts.tags', 'posts.price', 'posts.negotiable', 'posts.contact_name', 'posts.email', 'posts.phone', 'posts.phone_hidden', 'posts.address', 'posts.city_id', 'posts.lon', 'posts.lat', 'posts.ip_addr', 'posts.visits', 'posts.email_token', 'posts.phone_token', 'posts.tmp_token', 'posts.verified_email', 'posts.verified_phone', 'posts.reviewed', 'posts.featured', 'posts.archived', 'posts.fb_profile', 'posts.partner')  
+            ->orderByDesc('makeanoffers.id');
+        view()->share('countMakeanoffers', $this->makeanoffers->count());       
 	
 		// Check and Load the API Plugin
 		$this->apiPlugin = load_installed_plugin('api');
