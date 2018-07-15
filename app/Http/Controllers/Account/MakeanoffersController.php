@@ -79,10 +79,20 @@ class MakeanoffersController extends AccountBaseController
         ->select('pictures.filename','pictures.position','pictures.active')->get();
 		
 		$data['pictures'] = DB::table('pictures')->select('pictures.filename','pictures.position','pictures.active')->where(['post_id' => $data['makeanoffers']['post_id'] , 'position' => 0])->first();
-		$all_post = DB::table('posts')->where('posts.user_id', $data['makeanoffers']['seller_id'])
-                        // ->join('pictures', 'posts.id', '=', 'pictures.post_id')
-                        ->select('posts.*')  
-                        ->orderByDesc('posts.id')->get();
+
+		$all_post = DB::table('posts')->where(function ($query) use ($seller_id , $buyer_id)
+        {
+            if(auth()->user()->user_type_id == 2)
+            {
+            	$query->where('posts.user_id', '=', $seller_id);
+            }
+            elseif(auth()->user()->user_type_id == 3)
+            {
+            	$query->where('posts.user_id', '=', $buyer_id);
+            }	 
+        })
+ 		->orderByDesc('posts.id')->get();
+
 		$data['all_post'] = $all_post;
 		return view('account.makeanoffers-edit', $data);
 	}
@@ -138,6 +148,7 @@ class MakeanoffersController extends AccountBaseController
 	{
 		$makeanoffer = Makeanoffer::find($id);
 		$makeanoffer->next_post_id = $request->input('post');
+		$makeanoffer->approve_seller = 0;
 		$makeanoffer->update();
 		return redirect('account/makeanoffers/'.$id.'/edit');
 	}

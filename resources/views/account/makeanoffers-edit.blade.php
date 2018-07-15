@@ -148,6 +148,9 @@ else
 												<div class="col-md-10 center offer-display">
 													<div class="col-md-4 offer-display-img">
 														<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
+														@if(!empty($makeanoffers->next_post_id))
+														<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img" width="50" height="50"></a>
+														@endif
 													</div>
 													<div class="col-md-8">
 														<h2 class="title-2 tabs-center">
@@ -193,6 +196,9 @@ else
 												<div class="col-md-10 offer-display">
 													<div class="col-md-4 offer-display-img">
 														<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
+														@if(!empty($makeanoffers->next_post_id))
+														<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img" width="50" height="50"></a>
+														@endif
 													</div>
 													<div class="col-md-8">
 														<h2 class="title-2 tabs-center">
@@ -224,6 +230,7 @@ else
 											</div>
 											<div class="row offer-decision">
 												@if($makeanoffers->approve_seller == 0)
+												@if(auth()->user()->user_type_id == 2)
 												<a href="{{ lurl('/account/makeanoffers/'.$makeanoffers->id.'/dealseller') }}" class="visible-lg tabs-center">
 												<img src="{{ lurl('/') }}/images/logo-deal.png"
 												 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
@@ -236,6 +243,7 @@ else
 													 data-toggle="tooltip"
 													 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
 												</a>
+												@endif
 												@elseif($makeanoffers->approve_seller == 2)
 												<a href="#" class="visible-lg tabs-center">
 													<img src="{{ lurl('/') }}/images/logo-not-deal.png"
