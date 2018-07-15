@@ -93,6 +93,12 @@ else
 									                                alt="Image" /></a>
 									                        </div>
 									                    </div>
+									                    <div class="row">
+									                        <div class="col-xs-6 col-sm-5 col-md-5">
+									                            <a href="http://dotstrap.com/"> <img src="http://placehold.it/100x100" class="thumbnail"
+									                                alt="Image" /></a>
+									                        </div>
+									                    </div>
 									                </div>
 									            	</div>
 										            <div class="row">
@@ -108,12 +114,12 @@ else
 										<div class="col-md-6">
 											<h2 style="text-align: center;">Offer</h2>
 											<div class="row"> 
-												<div class="col-md-12 center offer-display">
-													<div class="col-md-4">
+												<div class="col-md-10 center offer-display">
+													<div class="col-md-4 offer-display-img">
 														<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
 													</div>
 													<div class="col-md-8">
-														<h1>Buyer’s Offer : {{ $makeanoffers->original_price }}</h1>
+														<h2>Buyer’s Offer : {{ $makeanoffers->original_price }}</h2>
 														<p>{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</p>
 
 															@if ($makeanoffers->status == 1)
@@ -141,12 +147,12 @@ else
 												</div>
 											</div>
 											<div class="row">	
-												<div class="col-md-6 offer-display">
-													<div class="col-md-4">
+												<div class="col-md-10 offer-display">
+													<div class="col-md-4 offer-display-img">
 														<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
 													</div>
 													<div class="col-md-8">
-														<h1>Seller’s Offer : {{ $makeanoffers->original_price }}</h1>
+														<h2>Seller’s Offer : {{ $makeanoffers->original_price }}</h2>
 														<p>{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</p>
 
 															@if ($makeanoffers->status == 1)
@@ -195,6 +201,12 @@ else
 									                                alt="Image" /></a>
 									                        </div>
 									                    </div>
+									                    <div class="row">
+									                        <div class="col-xs-6 col-sm-5 col-md-5">
+									                            <a href="http://dotstrap.com/"> <img src="http://placehold.it/100x100" class="thumbnail"
+									                                alt="Image" /></a>
+									                        </div>
+									                    </div>
 									                </div>
 									            	</div>
 										            <div class="row">
@@ -209,179 +221,7 @@ else
 										</div>
 									</div>	
 								</div>
-								<br />
-								<br />
-								<br />	
-								<div class="row" style="margin-bottom: 20px;">
-									<div class="col-md-6">
-										<div class="row" style="background: #dd4b39; border-radius: 100px;">
-											<h1 class="title-2 tabs-center" style="color: white;"><?php 
-											if($makeanoffers->seller_id == auth()->user()->id)
-											{
-												echo auth()->user()->name;
-											}
-											else
-											{
-												echo 'Seller';
-											}
-											?></h1>
-										</div>
-										<div class="table-responsive" style="margin-top: -20px;background-color: #fff; margin-right: -15px; margin-left: -12px;">
-											<table class="table table-bordered" style="margin-bottom: 0px;">
-												<thead>
-													<tr>
-														<th>{{ t('Date') }}</th>
-														<th>{{ t('Option') }}</th>
-														<th>{{ t('Decision') }}</th>
-														<th>{{ t('Offer') }}</th>
-													</tr>
-												</thead>
-														
-												<tbody>
-													<tr>
-														<td width="20%">{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</td>
-														<td >
-															@if ($makeanoffers->status == 1)
-															<p>
-					                                            <a class="btn btn-primary btn-sm" data-toggle="modal" href="{{ $updateoffer }}">
-					                                                <i class="fa fa-pencil"></i> {{ t('Edit') }}
-					                                            </a>
-					                                        </p>
-															@else
-																	{{ t('Not Active') }}
-															@endif
-														</td>
-														<td width="30%">	
-														<?php if($makeanoffers->approve_seller == 0){?>	
-														<a href="{{ lurl('/account/makeanoffers/'.$makeanoffers->id.'/dealseller') }}" class="visible-lg tabs-center">
-														<img src="{{ lurl('/') }}/images/logo-deal.png"
-															 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
-															 data-toggle="tooltip"
-															 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
-														</a>
-														<?php } ?>
-														<a href="{{ lurl('/account/makeanoffers/'.$makeanoffers->id.'/notdealseller') }}" class="visible-lg tabs-center">
-														<img src="{{ lurl('/') }}/images/logo-not-deal.png"
-															 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
-															 data-toggle="tooltip"
-															 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
-														</a>
-														</td>
-														<td>
-															<div class="col-md-12">
-																<div class="col-md-8">
-																<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
-																</div>
-																<div class="col-md-4">
-																	{{ $makeanoffers->original_price }}
-																</div>
-															</div>
-															<div class="col-md-12">
-																<div class="col-md-8">
-																	<a href="#" data-toggle="modal" class="visible-lg tabs-center" disabled>
-																	<span class="glyphicon glyphicon-plus"></span>
-																	</a>
-																	<br/>
-																	@if($makeanoffers->next_post_id != 0)
-																	<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
-																	@endif
-																</div>
-															</div>	
-														</td>
-													</tr>
-												</tbody>	
-											</table>
-										</div>	
-									</div>
-								</div>
 								
-								<div class="row" style="margin-bottom: 20px;">
-								</div>
-
-								<div class="row">
-									<div class="col-md-12">
-											<div class="row" style="background: #007bb5; border-radius: 100px;">
-												<h1 class="title-2 tabs-center" style="color: white;"><?php 
-												if($makeanoffers->buyer_id == auth()->user()->id)
-												{
-													echo auth()->user()->name;
-												}
-												else
-												{
-													echo 'Buyer';
-												}
-												?></h1>
-											</div>
-											<div class="table-responsive" style="margin-top: -20px;background-color: #fff; margin-left: -15px; margin-right: -12px;">
-												<table class="table table-bordered" style="margin-bottom: 0px;">
-													<thead>
-														<tr>
-															<th>{{ t('Offer') }}</th>
-															<th>{{ t('Decision') }}</th>
-															<th>{{ t('Option') }}</th>
-															<th>{{ t('Date') }}</th>
-															
-														</tr>
-													</thead>
-													<tbody>
-														<tr>
-															<td>
-																<div class="col-md-12">
-																	<div class="col-md-8">
-																	<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
-																	</div>
-																	<div class="col-md-4">
-																		{{ $makeanoffers->offer_price }}
-																	</div>
-																</div>
-																
-																<div class="col-md-12">
-																	<div class="col-md-8">
-																		<a href="{{ $addmore }}" data-toggle="modal" class="visible-lg tabs-center">
-																		<span class="glyphicon glyphicon-plus"></span>
-																		</a>
-																		<br/>
-																		@if($makeanoffers->next_post_id != 0)
-																		<a href="#"><img class="thumbnail img-responsive" src="{{ $postImg }}" alt="img"></a>
-																		@endif
-																	</div>
-																</div>	
-															</td>
-															
-															<td width="30%">
-																<?php if($makeanoffers->approve_seller == 1){?>
-																<a href="{{ lurl('/account/makeanoffers/'.$makeanoffers->id.'/dealbuyer') }}" class="visible-lg tabs-center">
-																<img src="{{ lurl('/') }}/images/logo-deal.png"
-																 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
-																 data-toggle="tooltip"
-																 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
-																</a>
-																<a href="{{ lurl('/account/makeanoffers/'.$makeanoffers->id.'/notdealbuyer') }}" class="visible-lg tabs-center">
-																	<img src="{{ lurl('/') }}/images/logo-not-deal.png"
-																	 alt="{{ strtolower(config('settings.app.name')) }}" class="tooltipHere main-logo" title="" data-placement="bottom"
-																	 data-toggle="tooltip"
-																	 data-original-title="{!! isset($logoLabel) ? $logoLabel : '' !!}"/>
-																</a>
-																<?php } ?>
-															</td>
-															<td>
-																@if ($makeanoffers->status == 1)
-																<p>
-						                                            <a class="btn btn-primary btn-sm" data-toggle="modal" href="{{ $updateoffer }}">
-						                                                <i class="fa fa-pencil"></i> {{ t('Edit') }}
-						                                            </a>
-						                                        </p>
-																@else
-																		{{ t('Not Active') }}
-																@endif
-															</td>
-															<td width="20%">{{ $makeanoffers->updated_at->formatLocalized(config('settings.app.default_datetime_format')) }}</td>
-														</tr>
-													</tbody>	
-												</table>
-											</div>	
-									</div>
-								</div>
 				
 								{{-- <div class="col-md-12 tabs-center">
 									<button type = "submit" id="offerSubmit" class="btn btn-primary btn-md"> {{ t('Send Offer') }} </button>
