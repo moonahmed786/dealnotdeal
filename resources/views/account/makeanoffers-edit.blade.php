@@ -178,7 +178,7 @@ else
 													</div>	
 												</div>
 											</div>
-											@if($makeanoffers->approve_seller == 1)
+											@if($makeanoffers->approve_seller == 0)
 											<div class="row">
 												<div class="col-md-6 add-items">
 													<div class="col-md-5">
