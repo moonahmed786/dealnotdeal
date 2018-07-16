@@ -21,6 +21,7 @@ use App\Models\Makeanoffer;
 use App\Models\Post;
 use App\Models\Picture;
 use App\Http\Requests\MakeAnOfferEditRequest;
+use App\Http\Requests\MakeAnOfferRequest;
 use Illuminate\Support\Facades\Request;
 use DB;
 
@@ -148,6 +149,15 @@ class MakeanoffersController extends AccountBaseController
 	{
 		$makeanoffer = Makeanoffer::find($id);
 		$makeanoffer->next_post_id = $request->input('post');
+		$makeanoffer->approve_seller = 0;
+		$makeanoffer->update();
+		return redirect('account/makeanoffers/'.$id.'/edit');
+	}
+
+	public function updatemakeanoffer ($id, MakeAnOfferRequest $request)
+	{
+		$makeanoffer = Makeanoffer::find($id);
+		$makeanoffer->offer_price = $request->input('offer_price');
 		$makeanoffer->approve_seller = 0;
 		$makeanoffer->update();
 		return redirect('account/makeanoffers/'.$id.'/edit');

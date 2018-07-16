@@ -168,14 +168,12 @@ else
 														{{ $makeanoffers->original_price }} | {{ $makeanoffers->offer_price }}</h2>
 														<p>{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</p>
 
-															@if ($makeanoffers->status == 1)
+															@if ($makeanoffers->status == 1 && auth()->user()->user_type_id == 2 && $makeanoffers->approve_seller == 0)
 															<p>
 					                                            <a class="btn btn-primary btn-sm" data-toggle="modal" href="{{ $updateoffer }}">
 					                                                <i class="fa fa-pencil"></i> {{ t('Edit') }}
 					                                            </a>
 					                                        </p>
-															@else
-																	{{ t('Not Active') }}
 															@endif
 													</div>	
 												</div>
@@ -216,14 +214,12 @@ else
 														{{ $makeanoffers->original_price }} | {{ $makeanoffers->offer_price }}</h2>
 														<p>{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</p>
 
-															@if ($makeanoffers->status == 1)
+															@if ($makeanoffers->status == 1 && auth()->user()->user_type_id == 3 && $makeanoffers->approve_seller == 0)
 															<p>
 					                                            <a class="btn btn-primary btn-sm" data-toggle="modal" href="{{ $updateoffer }}">
 					                                                <i class="fa fa-pencil"></i> {{ t('Edit') }}
 					                                            </a>
 					                                        </p>
-															@else
-																	{{ t('Not Active') }}
 															@endif
 													</div>	
 												</div>

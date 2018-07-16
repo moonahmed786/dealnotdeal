@@ -9,9 +9,9 @@
 				<span aria-hidden="true">&times;</span>
 				<span class="sr-only">{{ t('Close') }}</span>
 			</button>
-          <h4 class="modal-title"><i class="icon-mail-2"></i> {{ t('Contact advertiser') }} </h4>
+          <h4 class="modal-title"><i class="icon-mail-2"></i> {{ t('Offer') }} </h4>
         </div>
-        <form role="form" method="POST" action="{{ lurl('posts/' . $post->id . '/makeanoffer') }}" enctype="multipart/form-data">
+        <form role="form" method="POST" action="{{ lurl('account/makeanoffers/' . $makeanoffers->id . '/updatemakeanoffer') }}" enctype="multipart/form-data">
 		{!! csrf_field() !!}
         <div class="modal-body">
           <div class="form-group required <?php echo (isset($errors) and $errors->has('offer_price')) ? 'has-error' : ''; ?>">
@@ -24,7 +24,7 @@
 					<span class="input-group-addon"><i class="glyphicon glyphicon-usd"></i></span>
 					<input id="offer_price" name="offer_price" type="number"
 						   placeholder="{{ t('Offer Price') }}"
-						   maxlength="60" class="form-control" value="<?php echo $post->price ;?>">
+						   maxlength="60" class="form-control" value="<?php echo $makeanoffers->offer_price ;?>">
 				</div>
 			</div>
         </div>

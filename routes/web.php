@@ -307,6 +307,7 @@ Route::group([
 			Route::get('account/makeanoffers/{id}/dealbuyer', 'MakeanoffersController@dealbuyer');
 			Route::get('account/makeanoffers/{id}/notdealbuyer', 'MakeanoffersController@notdealbuyer');
 			Route::post('account/makeanoffers/{id}/addmore', 'MakeanoffersController@addmore');
+			Route::post('account/makeanoffers/{id}/updatemakeanoffer', 'MakeanoffersController@updatemakeanoffer');
 		});
 		
 		
