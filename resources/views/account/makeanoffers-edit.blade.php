@@ -178,6 +178,7 @@ else
 													</div>	
 												</div>
 											</div>
+											@if($makeanoffers->approve_seller == 1)
 											<div class="row">
 												<div class="col-md-6 add-items">
 													<div class="col-md-5">
@@ -190,6 +191,7 @@ else
 													</div>	
 												</div>
 											</div>
+											@endif
 											<div class="row">	
 												<div class="col-md-10 offer-display">
 													<div class="col-md-4 offer-display-img">
