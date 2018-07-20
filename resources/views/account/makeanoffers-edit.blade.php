@@ -54,8 +54,6 @@ else
                                     } else {
                                         $postImg = resize(config('larapen.core.picture.default'));
                                     }
-
-                                    $countryFlagPath = 'images/flags/16/' . strtolower($post->country_code) . '.png';
 								?>
 
 								<div class="row">
@@ -77,9 +75,15 @@ else
 									            <br />
 									            <!-- Carousel items -->
 									            <div class="carousel-inner">
-									                <div class="item active">
+									                
 									                	@if($sellerPosts->count() > 0)
+									                	<?php 
+									                	$i = 0;
+									                	?>
+
 									                	@foreach($sellerPosts as $sellerPost)
+									                		
+									                	<div class="item <?= ($i == 0 || $i == 1 || $i == 2 || $i == 3) ? 'active' : ''; ?>">
 									                	<?php 
 									                	if (!empty($sellerPost->filename)) {
 						                                        $postImgseller = resize($sellerPost->filename, 'medium');
@@ -92,10 +96,15 @@ else
 									                	<div class="row">
 									                        <div class="col-xs-6 col-sm-5 col-md-5">
 									                            <a href="http://dotstrap.com/"> <img src="{{ $postImgseller }}" class="thumbnail"
-									                                alt="Image" /></a>
+									                                alt="Image" style="height: 100px; width: 100px;" /></a>
 									                        </div>
 									                    </div>
+									                    </div>
+									                    <?php 
+									                	$i ++;
+									                	?>
 									                    @endforeach
+
 									                    @else
 									                	<div class="row">
 									                        <div class="col-xs-6 col-sm-5 col-md-5">
@@ -128,7 +137,6 @@ else
 									                        </div>
 									                    </div>
 									                    @endif
-									                </div>
 									            	</div>
 									            	@if($sellerPosts->count() > 4)
 										            <div class="row">
@@ -165,7 +173,10 @@ else
 																}
 															?>
 															<br />
-														{{ $makeanoffers->original_price }} | {{ $makeanoffers->offer_price }}</h2>
+														<h1 class="pricetag-offer">
+															{!! \App\Helpers\Number::money($makeanoffers->original_price) !!}
+														</h1>
+													</h2>
 														<p>{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</p>
 
 															@if ($makeanoffers->status == 1 && auth()->user()->user_type_id == 2 && $makeanoffers->approve_seller == 0)
@@ -213,7 +224,10 @@ else
 																}
 															?>
 														<br />	
-														{{ $makeanoffers->original_price }} | {{ $makeanoffers->offer_price }}</h2>
+														<h1 class="pricetag-offer">
+															{!! \App\Helpers\Number::money($makeanoffers->offer_price) !!}
+														</h1>
+													</h2>
 														<p>{{ $makeanoffers->created_at->formatLocalized(config('settings.app.default_datetime_format')) }}</p>
 
 															@if ($makeanoffers->status == 1 && auth()->user()->user_type_id == 3 && $makeanoffers->approve_seller == 0)
@@ -275,9 +289,12 @@ else
 									            <br />
 									            <!-- Carousel items -->
 									            <div class="carousel-inner">
-									                <div class="item active">
 									                	@if($buyerPosts->count() > 0)
+									                	<?php 
+									                	$i = 0;
+									                	?>
 									                	@foreach($buyerPosts as $buyerPost)
+									                	<div class="item <?= ($i == 0 || $i == 1 || $i == 2 || $i == 3) ? 'active' : ''; ?>">
 									                	<?php 
 									                	if (!empty($buyerPost->filename)) {
 						                                        $postImgbuyer = resize($buyerPost->filename, 'medium');
@@ -290,9 +307,13 @@ else
 									                	<div class="row">
 									                        <div class="col-xs-6 col-sm-5 col-md-5">
 									                            <a href="http://dotstrap.com/"> <img src="{{ $postImgbuyer }}" class="thumbnail"
-									                                alt="Image" /></a>
+									                                alt="Image" style="height: 100px; width: 100px;"/></a>
 									                        </div>
 									                    </div>
+									                	</div>
+									                	<?php 
+									                	$i ++;
+									                	?>
 									                    @endforeach
 									                    @else
 									                    <div class="row">
@@ -321,7 +342,6 @@ else
 									                    </div>
 									                    @endif
 									                </div>
-									            	</div>
 									            	@if($buyerPosts->count() > 4)
 										            <div class="row">
 										                <div class="col-md-4">

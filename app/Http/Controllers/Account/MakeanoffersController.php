@@ -79,7 +79,7 @@ class MakeanoffersController extends AccountBaseController
 		->join('pictures', 'posts.id', '=', 'pictures.post_id')
         ->select('pictures.filename','pictures.position','pictures.active')->get();
 		
-		$data['pictures'] = DB::table('pictures')->select('pictures.filename','pictures.position','pictures.active')->where(['post_id' => $data['makeanoffers']['post_id'] , 'position' => 0])->first();
+		$data['pictures'] = DB::table('pictures')->select('pictures.filename','pictures.position','pictures.active')->where(['post_id' => $data['makeanoffers']['post_id'] , 'position' => 1])->first();
 
 		$all_post = DB::table('posts')->where(function ($query) use ($seller_id , $buyer_id)
         {
